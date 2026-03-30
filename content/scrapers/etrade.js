@@ -44,12 +44,13 @@ const TF_ETRADE = {
 
   _findRows() {
     // eTrade React grid: each position is a div[role="row"] with aria-rowindex.
-    // Data rows contain a symbol link; header/total rows do not.
+    // Data rows contain a symbol link or aria-label; header/total rows do not.
     const allRows = document.querySelectorAll('div[role="row"][aria-rowindex]');
     return [...allRows].filter(row => {
-      // Must have a symbol cell (col 1) with an aria-label (the ticker)
       const col1 = row.querySelector('[aria-colindex="1"]');
-      return col1 && col1.querySelector('[aria-label]');
+      if (!col1) return false;
+      // Accept rows with an aria-label element (equities) OR a link (options)
+      return col1.querySelector('[aria-label]') || col1.querySelector('a');
     });
   },
 
