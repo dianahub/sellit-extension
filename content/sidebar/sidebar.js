@@ -7,6 +7,7 @@ const TF_SIDEBAR = (() => {
   let host = null;
   let shadow = null;
   let _mounting = false;
+  let _positions = null;
 
   // ── Build & Mount ───────────────────────────────────────────────────────
 
@@ -92,7 +93,15 @@ const TF_SIDEBAR = (() => {
     });
 
     $('tf-analyze-btn').addEventListener('click', () => analyze());
-    $('tf-more-btn').addEventListener('click', () => window.open(TF_CONSTANTS.UPGRADE_URL, '_blank'));
+    $('tf-more-btn').addEventListener('click', async () => {
+      // Stash positions so the frontend bridge can auto-import them
+      if (_positions?.length) {
+        await chrome.storage.local.set({
+          pending_import: { positions: _positions, ts: Date.now() },
+        });
+      }
+      window.open(TF_CONSTANTS.UPGRADE_URL, '_blank');
+    });
     $('tf-back-btn').addEventListener('click', () => _setState('idle'));
   }
 
@@ -153,6 +162,7 @@ const TF_SIDEBAR = (() => {
       return;
     }
 
+    _positions = positions;
     _setDone(result.analysis, positions);
   }
 

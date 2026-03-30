@@ -4,11 +4,13 @@
 import '../shared/config.js'; // sets globalThis.TF_CONFIG
 
 const MSG = {
-  ANALYZE:        'ANALYZE_POSITIONS',
-  GET_SETTINGS:   'GET_SETTINGS',
-  SAVE_SETTINGS:  'SAVE_SETTINGS',
-  LOGIN:          'LOGIN',
-  LOGOUT:         'LOGOUT',
+  ANALYZE:             'ANALYZE_POSITIONS',
+  GET_SETTINGS:        'GET_SETTINGS',
+  SAVE_SETTINGS:       'SAVE_SETTINGS',
+  LOGIN:               'LOGIN',
+  LOGOUT:              'LOGOUT',
+  GET_PENDING_IMPORT:  'GET_PENDING_IMPORT',
+  CLEAR_PENDING_IMPORT:'CLEAR_PENDING_IMPORT',
 };
 
 const TRADEFLOW_API = TF_CONFIG.API;
@@ -36,6 +38,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     case MSG.LOGOUT:
       chrome.storage.sync.remove(['tradeflow_token', 'tradeflow_user'])
         .then(() => sendResponse({ ok: true }));
+      return true;
+
+    case MSG.GET_PENDING_IMPORT:
+      chrome.storage.local.get('pending_import').then(sendResponse);
+      return true;
+
+    case MSG.CLEAR_PENDING_IMPORT:
+      chrome.storage.local.remove('pending_import').then(() => sendResponse({ ok: true }));
       return true;
   }
 });
