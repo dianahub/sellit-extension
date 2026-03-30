@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "Sell it? - AI Portfolio Advisor",
+  "version": "1.0.0",
+  "description": "Should you sell today? Get an instant AI recommendation on your brokerage portfolio.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://us.etrade.com/*",
+    "https://edgetrade.etrade.com/*",
+    "https://www.fidelity.com/*",
+    "https://robinhood.com/*",
+    "https://client.schwab.com/*",
+    "https://api.anthropic.com/*",
+    "https://tradeflow.app/*",
+    "https://tradeflow.ddev.site/*",
+    "https://tradeflow-production-c4ff.up.railway.app/*",
+    "http://localhost:5173/*",
+    "https://sellit-portfolio-dashboard.vercel.app/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://us.etrade.com/*",
+        "https://edgetrade.etrade.com/*",
+        "https://www.fidelity.com/*",
+        "https://robinhood.com/*",
+        "https://client.schwab.com/*"
+      ],
+      "js": [
+        "shared/config.js",
+        "shared/constants.js",
+        "content/scrapers/etrade.js",
+        "content/scrapers/fidelity.js",
+        "content/scrapers/robinhood.js",
+        "content/scrapers/schwab.js",
+        "content/sidebar/sidebar.js",
+        "content/content-main.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content/sidebar/sidebar.css", "icons/*"],
+      "matches": [
+        "https://us.etrade.com/*",
+        "https://edgetrade.etrade.com/*",
+        "https://www.fidelity.com/*",
+        "https://robinhood.com/*",
+        "https://client.schwab.com/*"
+      ]
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sell it?</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Sell <span>it?</span></div>
+    <div class="tagline">AI Portfolio Advisor</div>
+  </header>
+
+  <!-- Logged-in view -->
+  <section id="view-loggedin" class="view hidden">
+    <div class="user-info">
+      <span class="user-email" id="user-email"></span>
+      <span class="badge-paid hidden" id="badge-paid">Pro</span>
+    </div>
+    <p class="hint">Open your brokerage portfolio page —<br>the TradeFlow sidebar will appear automatically.</p>
+    <div class="supported-brokers">
+      <span class="broker etrade">E*TRADE</span>
+      <span class="broker fidelity">Fidelity</span>
+      <span class="broker robinhood">Robinhood</span>
+      <span class="broker schwab">Schwab</span>
+    </div>
+    <button class="btn btn-secondary" id="btn-logout">Sign out</button>
+  </section>
+
+  <!-- Logged-out / API key view -->
+  <section id="view-loggedout" class="view">
+
+    <div class="tabs">
+      <button class="tab active" data-tab="login">tradeflow.app</button>
+      <button class="tab" data-tab="apikey">Own API Key</button>
+    </div>
+
+    <!-- Login tab -->
+    <div id="tab-login" class="tab-content active">
+      <p class="hint">Sign in for unlimited analyses, history, and smart alerts.</p>
+      <div id="login-error" class="error-msg hidden"></div>
+      <input type="email" id="input-email" placeholder="Email" autocomplete="email">
+      <input type="password" id="input-password" placeholder="Password" autocomplete="current-password">
+      <button class="btn btn-primary" id="btn-login">Sign In</button>
+      <a class="link" href="https://tradeflow.app/register" target="_blank">Create account →</a>
+    </div>
+
+    <!-- API Key tab -->
+    <div id="tab-apikey" class="tab-content">
+      <p class="hint">Use your own Anthropic API key for direct AI access.<br>3 free analyses/day, no account needed.</p>
+      <div id="apikey-error" class="error-msg hidden"></div>
+      <input type="password" id="input-apikey" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+      <button class="btn btn-primary" id="btn-save-apikey">Save Key</button>
+      <p class="small-note">Your key is stored locally and never sent to our servers.</p>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <a class="link" href="https://tradeflow.app/upgrade" target="_blank" id="upgrade-link">Upgrade to Pro</a>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
