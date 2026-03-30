@@ -62,13 +62,29 @@ const TF_ETRADE = {
       return cell?.textContent?.trim() ?? '';
     };
 
-    // Symbol: stable via aria-label on the SymbolCellRenderer content div
     const col1 = row.querySelector('[aria-colindex="1"]');
-    const symbolEl = col1?.querySelector('[aria-label]');
-    const symbol = symbolEl?.getAttribute('aria-label')?.split(',')[0]?.trim()
-      || col1?.querySelector('a')?.textContent?.trim();
+
+    // Try the link text first (just the ticker, e.g. "UCO") — most reliable
+    let symbol = col1?.querySelector('a')?.textContent?.trim();
+
+    // Fallback: aria-label, take only the first comma-delimited or space-delimited token
+    if (!symbol) {
+      const ariaLabel = col1?.querySelector('[aria-label]')?.getAttribute('aria-label') ?? '';
+      symbol = ariaLabel.split(',')[0].trim();
+    }
+
+    // If still too long (e.g. full option description without comma), take first word
+    if (symbol && symbol.length > 10) {
+      symbol = symbol.split(/\s+/)[0];
+    }
 
     if (!symbol || symbol.length > 10) return null;
+
+    // Detect option type from description text in col1 (e.g. "Apr 17 '26 $45 Call")
+    const col1Text = col1?.textContent ?? '';
+    const isCall = /\bCall\b/i.test(col1Text);
+    const isPut  = /\bPut\b/i.test(col1Text);
+    const isOption = isCall || isPut;
 
     // Column layout (confirmed from DOM inspection):
     // col 1  → symbol
@@ -85,7 +101,8 @@ const TF_ETRADE = {
 
     return {
       symbol:              symbol.toUpperCase(),
-      asset_type:          this._assetType(symbol),
+      asset_type:          isOption ? 'option' : this._assetType(symbol),
+      option_type:         isOption ? (isCall ? 'CALL' : 'PUT') : undefined,
       quantity:            this._num(col(6)),
       price_paid:          this._num(col(7)),
       last_price:          this._num(col(3)),
