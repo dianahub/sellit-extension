@@ -9,8 +9,8 @@
 const TF_ETRADE = {
 
   canHandle() {
-    // Hostname check is enforced by manifest host_permissions.
-    return location.hostname.includes('etrade.com');
+    return location.hostname.includes('etrade.com') &&
+      (location.pathname.includes('portfolio') || location.pathname.includes('positions'));
   },
 
   async scrape() {
