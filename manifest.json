@@ -20,9 +20,7 @@
     "https://client.schwab.com/*",
     "https://api.anthropic.com/*",
     "https://tradeflow.app/*",
-    "https://tradeflow.ddev.site/*",
     "https://tradeflow-production-c4ff.up.railway.app/*",
-    "http://localhost:5173/*",
     "https://sellit-portfolio-dashboard.vercel.app/*"
   ],
   "background": {
@@ -32,7 +30,6 @@
   "content_scripts": [
     {
       "matches": [
-        "http://localhost:5173/*",
         "https://sellit-portfolio-dashboard.vercel.app/*"
       ],
       "js": ["content/frontend-bridge.js"],
