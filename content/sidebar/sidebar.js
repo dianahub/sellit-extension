@@ -43,8 +43,8 @@ const TF_SIDEBAR = (() => {
     wrap.id = 'tf-sidebar';
     wrap.innerHTML = `
       <div id="tf-header">
-        <span class="tf-logo">Sell <span>it?</span></span>
         <button id="tf-toggle" title="Collapse">◀</button>
+        <span class="tf-logo">Sell <span>it?</span></span>
       </div>
 
       <div id="tf-content">

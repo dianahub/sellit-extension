@@ -18,6 +18,24 @@ header {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   padding: 16px 18px 12px;
   color: #fff;
+  position: relative;
+}
+
+#btn-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+#btn-close:hover {
+  color: #fff;
 }
 
 .logo {
